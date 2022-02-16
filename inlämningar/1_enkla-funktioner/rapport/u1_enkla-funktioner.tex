@@ -1,0 +1,107 @@
+
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{minted}
+
+\begin{document}
+
+\title{
+    \textbf{Enkla funktioner\\
+            \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{\today}
+
+\maketitle
+
+\section*{Inledning}
+I denna rapport ska jag redovisa min lösning för den första inlämningsuppgiften, enkla funktioner, i kursen programmering II. Syftet med uppgiften var att jag skulle bekanta mig med funktionell programmering genom att implementera några enkla funktioner i Elixir. Jag gjorde alla uppgifter till och med del fem (reverse) men jag har valt att endast gå igenom två uppgifter i del tre, listoperationer. Jag känner att denna del visar på hur mitt tankesätt förändrades i och med att jag löste fler problem, och att lösningarna var öppna för tolkning och att det därför kan vara intressant för andra att se hur jag gjorde.
+
+\section*{Listoperationer}
+När jag löste uppgifterna i denna del hade jag löst de tidigare delarna av uppgiften och blivit bekant med syntaxen i Elixir, men då de tidigare uppgifterna var mer begränsade på hur de kunde lösas hade jag inte kommit in i det "rekursiva tankesättet" i de första uppgifterna.\\\\
+Ett exempel på detta kan vi se i min implementation av add(). Målet var att skriva en funktion som tar en lista och ett element som argument, och lägger till det elementet i listan om det inte redan finns i den.\\\\
+Jag började med att skriva en funktion för basfallet, där vi kollar om det första elementet i listan är det givna elementet, och en rekursiv funktion som kolla resterande element i listan. I grunden är detta en bra idé men min implementation av var undermålig.\pagebreak
+
+\begin{minted}{elixir}
+# Basfall: Är det första elementet i listan är samma som vi vill lägga till?
+def add(element, list) do
+    case hd(list) do
+        element -> list # Om det är samma lägger vi ej till elementet
+        _ -> add(element, list, list) # Anropa den rekursiva funktionen
+    end
+end
+\end{minted}
+
+\begin{minted}{elixir}
+# Den rekursiva funktionen
+def add(element, list, iter) do
+    iter = iter -- [hd(iter)] # Iterera  en kopia av listan
+    if iter == [] do   # Om vi har kollat genom hela listan, lägg till x
+        l = l ++ [x]
+        l
+    else
+        case hd(iter) do
+	        x -> l # Om vi hittar x, returnera den oförändrade listan
+	        _ -> add(x, list, iter) # Fortsätt kolla genom listan
+      end
+    end
+ end
+\end{minted}
+Jag ser inga stora problem med funktionen för basfallet, men den rekursiva funktionen skulle kunna implementeras på ett bättre sätt. När jag skrev denna funktionen tänkte jag fortfarande i samma banor som om jag kodade i Java eller C, vilket vi kan se på det sätt  jag itererar genom en kopia av listan. En "mer rekursiv" implementation av funktionen hade kanske skippat ackumulatorlistan och anropat något i stil med\\
+{\tt [hd(list)] ++ add(x, tl(list))} \\
+som den rekursiva funktionen.\\\\
+En deluppgift jag är mer nöjd med är pack(). Denna funktion ska ta en lista som argument och "packa" dess element i listor som i exemplet nedan.
+\begin{minted}{elixir}
+input: [0, 1, 2, 3, 0, 1, 1, 3]
+output: [ [0, 0], [1, 1, 1], [2], [3, 3] ]
+\end{minted}
+När jag implementerade denna funktion hade jag löst fler problem och fått större förståelse för hur man kan skriva en rekursiv lösning. Jag provade flera strategier och tillslut implementerade jag min lösning med två hjälpfunktioner: remove() och remove\_inverse().\\\\
+Remove() är en funktion från ett tidigare problem i listoperationer som tar ett element och en lista som argument, och returnerar listan där alla förekomster av det givna elementet är borttagna. Remove\_inverse() gör som man hör på namnet motsatsen, den tar ett element och en lista som argument och tar bort alla element i listan förutom de som är == element.\\\\
+Jag använde dessa funktioner i kombination med en ackumulatorlista för att implementera det rekursiva steget i pack().
+
+\begin{minted}{elixir}
+list =  [0, 1, 2, 3, 0, 1, 1, 3]
+x = 0
+def remove(x, list) do
+    # Returnerar list där alla element == x är borttagna
+end
+output:  [1, 2, 3, 1, 1, 3] # Nollorna tas bort
+
+def remove_inverse(x, list) do
+    # Returnerar en lista där alla element != x är borttagna
+end
+output:  [0, 0] # Alla element förutom nollorna tas bort
+
+\end{minted}
+\begin{minted}{elixir}
+# Basfall: Om listan endast innehåller flera av samma element
+def pack(list) do
+    if <alla element är likadana>
+        [list]
+    else
+        pack(remove(hd(list)),          # Rekursiva steget
+        [remove_inverse(hd(list), list)])
+    end
+end
+# Rekursivt steg: Ta bort alla förekomster av head-elementet och 
+# lägg till dem i ackumulatorlistan
+def pack(list, ackum) do
+    if remove(hd(list), list) == [] do # Om alla element i list är samma
+        ackum ++ [remove_inverse(list)]
+    else
+        pack(remove(hd(list), list),
+        ackum ++ [remove_inverse(hd(list), list)])
+    end
+end
+\end{minted}
+I varje anrop av funktionen tar vi bort alla element == hd(list) ur list, och lägger in en lista med de borttagna elementen i listan ackum. I denna funktion utnyttjar jag rekursionen på ett bättre sätt än add(), och koden blir därmed mer koncis och lättare att förstå.
+
+\section*{Slutsats}
+Jag tycker att denna uppgift var en bra introduktion till funktionell programmering och Elixir. Jag har självklart mycket mer att lära mig, men när jag jämför de första uppgifterna jag löste med de senare ser jag att jag har lärt mig mycket av att göra denna inlämningsuppgift.
+
+
+\(x^2 + y^2 = z^2\)
+
+\end{document}

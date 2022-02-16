@@ -1,0 +1,100 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{minted}
+
+\begin{document}
+
+\title{
+    \textbf{Derivatan\\
+            \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{\today}
+
+\maketitle
+
+\section*{Inledning}
+I denna rapport ska jag redovisa min lösning för den andra inlämningsuppgiften, derivatan, i kursen programmering II. Målet i denna uppgift var att skapa en funktion som kan derivera kombinationer av ett antal givna matematiska uttryck, och i förlänging lära sig att skriva något avancerade funktioner i elixir.\\ %SKriv om detta, typ kopierat från uppgifta
+
+\section*{Implementationen}
+Denna funktion skulle förutom att derivera uttryck även förenkla dem algebraiskt och skriva ut dem som strängar. Som givet i uppgiften gjordes detta genom att skapa nya typer baserade på literalerna för siffror och variabler, och sedan manipulera dessa typer med tre funktioner: {\tt deriv()}, {\tt simplify()} och {\tt pprint()}.
+
+\section*{Typerna}
+De typerna jag implementerade var {\tt:add}, {\tt:mul}, {\tt:exp}, {\tt:ln}, {\tt:sin} och {\tt:cos}.\\
+Jag hade inte något problem med att implementera dessa och jag tror att de är ungefär samma för alla som har gjort uppgiften. En sak som kan vara värd att nämna är att jag gjorde samma förenkling av {\tt:exp} som Johan gjorde i sin föreläsning, det vill säga att exponenten alltid är ett nummer istället för ett uttryck.
+\begin{minted}{elixir}
+ @type expr() :: literal()
+  ...
+  | {:exp, expr(), number()} # Exponenten (det tredje indexet) kan bara vara en siffra
+  | {:ln, expr()}
+  | {:sin, expr()}
+  | {:cos, expr()}
+\end{minted}
+
+\section{Deriv()}
+Då denna funktion i princip var given i videorna för uppgiften hade jag inte så svårt att implementera denna funktion för någon av de givna uttrycken. Varje typ hade en clause som matchade den motsvarande atomen, och sedan implementerade jag den relevanta deriveringsregeln som Johan gjorde i sin föreläsning. Då jag gjorde den tidigare nämnda förenklingen av {\tt:exp} typen var den matchande clausen betydligt enklare att skriva, se exempelkoden nedan.
+
+\begin{minted}{elixir}
+# Clause för att deriva :exp typen
+# {:num, n} ocn {:num, n - 1} hade förändrats om exponenten kunde vara ett uttryck
+def deriv({:exp, f, {:num, n}}, v) do
+  {:mul,
+    {:mul, {:num, n}, deriv(f, v)},
+    {:exp, f, {:num, n - 1}}}
+end
+\end{minted}
+
+
+\section*{Simplify()}
+Detta var den delen av uppgiften som tog längst tid för mig att lösa. I början av uppgiften, jag implementerade {\tt:add} och {\tt:mul} var det inte särskilt svårt men det blev snabbt komplicerat.\\
+Ett misstag jag gjorde flera gånger var att inte retuerna rätt uttryck från de olika clauserna, och istället returna argumenten. Detta var inte svårt att lösa när jag insåg vad jag hade gjort för fel, men jag gjorde detta misstag väldigt många gånger.
+
+\begin{minted}{elixir}
+def simplify_add(e1, e2) do e end {e1, e2} Fungerar inte då det alltid är två argument, och den 
+def simplify_add(e1, e2) do {:add, e1, e2} end # Fungerar korrekt
+\end{minted}
+
+Ett annat problem jag stötte på som var svårare att lösa var att förenkla uttryck som innehåll variabler, till exempel {\tt{:add, <nummer>, <variabel>}}. När jag bara hade ett enkelt uttryck som i exemplet innan var det inget problem då det inte går att förenkla längre, men när jag kombinerade ett sådant uttryck med ett annat stötte jag på problem.
+
+\begin{minted}{elixir}
+  Simplify({:add, 3, {:add, 3, x}}) # (3 + (3 + x))
+  # Gav denna utskrift
+  # ``3 + 3 + x'' istället för ``6 + x''
+\end{minted}
+
+Detta beror på att{\tt simplify()} anropas rekursivt, och därför börjar förenkla uttrycket ``längst in'' i parenteserna och arbetar sig utåt. Funktionen kunde därför inte förenkla två uttryck som inte är på samma ``nivå''.\\ %Beskriv detta bättre
+Jag löste detta genom att lägga till två nya clauses: en i{\tt simplify()}, som såg till att siffran alltid var i det andra indexet, och en i{\tt simplify_add()} som löste det fallet jag beskrev tidigare.
+
+\begin{minted}{elixir}
+# Om vi har ett uttryck e i andra indexet och en siffra i tredje, byt plats på dem
+def simplify({:add, e, {:num, n}}) do
+  simplify({:add, {:num, n}, e})
+end
+# I annat fall anropas denna
+def simplify({:add, e1, e2}) do
+  simplify_add(simplify(e1), simplify(e2))
+  end
+\end{minted}
+
+\begin{minted}{elixir}
+def simplify_add({:num, a}, {:add, {:num, b}, e}) do
+  {:add, {:num, a + b}, e} # I fallet (a + (b + e)) returnera ((a + b) + e)
+end
+\end{minted}
+
+En annan sak som skapade flera buggar var att jag från början kopierade koden från Johans föreläsning, och kombinationen av att han gjorde misstag och att jag inte förstod all kod ledde till många buggar. Tillslut blev det för rörigt och jag skrev om hela programmet från början vilket gick bättre.
+
+\section*{pprint()}
+Likt deriv() hade jag inga stora problem med denna funktion heller, då en del av den var given i uppgiften och resten var väldigt likt.
+
+\section*{Förbättringar}
+Jag gjorde det som var givet i uppgiften men under tiden jag skrev kod hade jag flera idéer på saker som skule kunna implementeras i simplify() delen, t.ex. en clause som behandlar multiplikation av :exp-och :ln-typer, men i slutändan nöjde jag mig med det jag hade gjort då det finns oändligt mycket saker som skulle kunna läggas till och jag var rätt trött på denna uppgift.
+
+\section*{Slutsats}
+Denna uppgift var förvånansvärt svår. När jag först kollade på videorna tänkte jag att det skulle gå fort att göra men som alltid när man (eller jag iallafall) programmerar kom det upp många buggar när jag skrev koden och det tog längre tid än vad jag hade förväntat mig. \\
+Jag tycker att det var väldigt intressant att se hur man kan bygga ett mer avancerat program än det vi gjorde i uppgift ett med i ett funktionellt programmeringsspråk, och att skillnaderna mellan det och ett ``vanligt'' språk blir ännu mer tydliga. Det var också roligt att skriva egna typer och förstå mer hur man kan representera data i elixir.
+
+\end{document}
+ 

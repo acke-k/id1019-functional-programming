@@ -1,0 +1,102 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{minted}
+
+\usepackage{mathtools}
+
+\begin{document}
+
+\title{
+  \textbf{List vs. tree\\
+  \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{\today}
+
+\maketitle
+
+\section*{Inledning}
+I denna rapport ska jag redovisa mitt arbete för uppgiften ``tree vs list'' i kursen programmering II. Jag har implementerat ett träd och en lista, och sedan jämfört deras prestanda i den givna funktionen {\tt bench()}.
+
+\section*{Listan och trädet}
+Jag implementerade listan som i koden nedanför.
+\begin{minted}{elixir}
+  def list_new() do [] end
+  
+  def list_insert(e, []) do [e] end
+  def list_insert(e, [h|t]) do
+    case e < h do
+      true -> [e | [h | t]]
+      false -> [h | list_insert(e, t)]
+    end
+  end
+\end{minted}
+Funktionen {\tt list\_add()} springer genom listan tills den hittar ett element som är större än det som ska stoppas in, och länkar in det på den platsen.\\
+För trädet tog jag inspiration från förra veckans föreläsning och skrev koden nedan.
+\begin{minted}{elixir}
+  def tree_new() do :nil end
+
+  def tree_insert(e, :nil) do {e, :nil, :nil} end
+  def tree_insert(e, {a, l ,r}) do
+    case e < a do
+      true -> {a, tree_insert(e, l), r}
+      false -> {a, l, tree_insert(e, r)}
+    end
+  end
+\end{minted}
+Jag använde även en dummyfunktion som baseline. Den implementerades med koden nedan.
+\begin{minted}{elixir}
+  def dummy_new() do end
+  def dummy_insert(_, _) do end
+\end{minted}
+
+\section*{Benchmark}
+Benchmarket gjordes med {\tt bench()} funktionen som var given i uppgiften. Jag använde den uppdaterade versionen som körde {\tt bench()} hundra gånger, och sedan lade jag till kod som dividerade resultatet med hundra.
+\begin{figure}[H]
+  \center
+  \includegraphics[]{bench/bench_log.pdf}
+  \caption{Resultaten från bench med tree, list och dummy. Logaritmisk y-axel.}
+  \label{bench_log}
+\end{figure}
+
+\noindent I \ref{bench_log} kan vi se att trädet är mycket snabbare än listan. Observera att y-axeln är logaritmisk. I \ref{bench_linj} plottar vi samma data mot en linjär y-axel och då kan vi knappt se tree-och dummyfunktionen.
+
+\begin{figure}[H]
+  \center
+  \includegraphics[]{bench/bench_linj.pdf}
+  \caption{Resultaten ur bench med tree, list och dummy. Linjär y-axel.}
+  \label{bench_linj}
+\end{figure}
+\section*{Analys}
+%Vilka slutsatser kan man dra?
+Som vi kan se i figurerna ovan presterar trädet mycket bättre än listan i {\tt bench()}.\\
+Funktionen {\tt bench()} fungerar så att {\tt insert()} funktionen för varje typ (list, tree och dummy) anropas så många gånger som y-axeln visar, med ett slumpmässigt nummer mellan noll och hundratusen som argument. Alltså är det {\tt tree\_insert()} som är snabbare än {\tt list\_insert()}. Vi kan förstår varför vi får detta resultat genom att gå igenom vad som händer när vi anroper dem.\\
+Om vi kollar på koden för {\tt list\_insert()} ser vi att den först kommer springa igenom listan tills villkoret \(e < h\) uppfylls, vilket i genomsnitt blir \(N/2\) ``steg'' i listan. Elementet {\tt e} kommer då länkas in. När vi sedan går tillbaka genom rekursionen kommer vi att bygga listan i varje anrop av {\tt list\_insert()}, vilket innebär att vi i genomsnitt tar ytterligare \(N/2\) steg per rekursivt anrop. Detta kulminerar i att komplexiteten blir kvadratisk.
+
+\begin{figure}[H]
+  \center
+  \includegraphics[]{bench/bench_list_fun.pdf}
+  \caption{Resultaten ur bench med list samt funktionen \(x^2\).}
+  \label{bench_list_fun}
+\end{figure}
+
+\noindent I \ref{bench_list_fun} kan vi se att exekveringstiden av {\tt bench()} som en funktion av antalet element \(N\) växer i ungefär samma takt som \(N^2\).\\
+
+\noindent Vi betraktar {\tt tree\_insert()}. Eftersom de element vi lägger till är slumpmässiga kan vi anta att trädet är någorlunda balanserat. Detta innebär att trädet blir \(log_2(N)\) djupt och att vi i genomsnitt måste gå \(log_2(N)/2\) många steg genom trädet för att lägga till ett element. I varje rekursion måste vi sedan bygga trädet igen, vilket resulterar i \(N*log(N)\) komplexitet.
+\begin{figure}[H]
+  \center
+  \includegraphics[]{bench/bench_tree_fun.pdf}
+  \caption{Resultaten ur bench med tree samt funktionen \(x * log(x)\).}
+  \label{bench_tree_fun}
+\end{figure}
+\noindent I \ref{bench_tree_fun} kan vi se att tiden från {\tt bench()} växer i ungeför samma takt som \(N*log(N)\).
+
+% Kanske ha benchmark som undersöker hur djupt trädet är.
+\section*{Slutsatser}
+När jag såg hur stor skillnaden var mellan listan och trädet var det första jag tänkte att jag borde ha använt ett träd istället för en lista i den förra uppgiften ``mips emulator'' när jag implementerade minnet. Denna uppgift var en viktig påminnnelse på det jag lärde mig i kursen data \& algoritmer, och det är roligt att se denna kunskap komma till användning i en annan kurs.
+
+\end{document}

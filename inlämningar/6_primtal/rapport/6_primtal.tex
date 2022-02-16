@@ -1,0 +1,95 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{minted}
+
+\usepackage{semantic}
+
+\begin{document}
+
+\title{
+  \textbf{Primtal\\
+  \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{VT22 \today}
+
+\maketitle
+
+\section*{Inledning}
+I denna uppgift har jag skapat tre funktioner som på olika sätt generar en lista av alla primtal från 2 till ett givet tal. Jag har sedan jämfört körtiden av funktionerna.
+
+\section*{Generera primtal}
+I alla tre versioner använde jag även en eller flera hjälpfunktioner.
+\subsection*{Version 1}
+För att implementera denna funktion använde jag en hjälpfunktion {\tt rem\_el()}. Den tar en lista och ett element som argument, och sedan tar den bort alla tal som är delbarar med elementet. Denna funktion anropas på alla tal i listan med tal från 2 till {\tt n}.
+
+\begin{minted}{elixir}
+  def prim1([]) do [] end
+  # Listan innehåller alla tal [2, n]
+  def prim1([h | t]) do [h | prim1(rem_el(h, t))] end # Gå genom alla element
+
+  rem_el(_, []) do [] end
+  rem_el(e, [h | t]) do
+  case rem(h, e) do
+    0 -> rem_el(e, t) # Ta bort elementet ur listan
+    _ -> [h | rem(e, t)] # Spara elementet i listan
+  end
+\end{minted}
+
+\subsection*{Version 2}
+Denna version använder en ackumulatorlista av primtal och två hjälpfunktioner. {\tt check\_lst()} kollar om ett element är med i en lista. {\tt add\_lst()} lägger till ett element sist i en lista.
+\begin{minted}{elixir}
+  # Börja med 2 i ackumulatorlistan
+  def prim2(n) when is_integer(n) do prim2(Enum..., [2])
+  
+  def prim2([], prims) do prims end
+  def prim2([h  t], prims) do
+    case check:lst(h, prims) ->
+      :succ -> prim2(t, add_lst(h, prims)) # Spara element
+      :fail -> prim2(t, prims) # Släng element
+    end
+  end
+  
+  def add_last(e, [h]) do [h | [e]] end
+  def add_last(e, [h | t]) do [h | add_last(e, t)] end
+\end{minted}
+
+\subsection*{Version 3}
+Denna version fungerar på samma sätt som version 2, men istället för att lägga till varje primtal sist i ackumulatorlistan vänder vi på den när vi är klara.
+Detta görs med funktionen {\tt rev\_lst()}
+\begin{minted}{elixir}
+  # Funktionen för att vända p listan
+  def lst_rev(lst) do lst_rev(lst, []) # Använder en ackumulatorlista
+  def lst_rev([], rev) do rev end # Vi ha gått igenom alla element
+  def lst_rev([h | t], rev) do lst_rev(t, [h | rev]) end
+\end{minted}
+
+\section*{Benchmark}
+Jag skapade en enkel benchmarkfunktion för att benchmarka mina funktioner.
+
+\begin{minted}{elixir}
+  def measure(function) do
+    function
+    |> :timer.tc
+    |> elem(0)
+    end
+  \end{minted}
+  
+\begin{figure}
+  \includegraphics[width=\linewidth]{./bench/bench.png}
+  \caption{Resultaten från {\tt measure()}}
+  \label{fig:bench_all}
+\end{figure}
+
+  I \ref{fig:bench_all} ser vi resultatet från alla tre versioner av {\tt prim()} då de kördes i {\tt measure()}.
+
+  \pagebreak
+\section*{Slutsatser}
+Som vi ser i \ref{fig:bench_all} var version 1 \& 2 av {\tt prim()} ungefär lika snabba, och version 3 var långsammare. Jag blev överraskad av detta resultat, innan jag testade dem trodde jag att version 1 skulle vara snabbast och att version 2 \& 3 skulle vara ungefär lika snabba. \\
+Efter att ha reflekterat mer över dessa resultat kan jag förstå varför version 1 \& 2 är ungefär lika snabba, då de måste gå samma antal ``steg'' i listor men gör det på olika sätt. Jag är inte säker på varför version 3 är så pass mycket långsammare, om jag behövde ge en anledning skulle jag säga att det beror på att det är långsamt att vända en lista, men jag är inte säker på varför det är så mycket långsammare än tillvägagångssättet version 2 använder.
+
+\end{document}

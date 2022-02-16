@@ -1,0 +1,137 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{minted}
+
+\usepackage{semantic}
+
+\begin{document}
+
+\title{
+  \textbf{En interpreter\\
+  \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{VT22 \today}
+
+\maketitle
+
+\section*{Inledning}
+I denna uppgift har jag implementerat en meta-interpretator (tolkare?) för en delmängd av Elixir. Min interpretator stödjer mönstermatchning och evaluering av några grundläggande typer i elixir, och senare i rapporten implementeras även stöd för case-do satser och evaluering av lambdauttryck. Jag hann inte göra den sista delen, ``namngivna funktioner''.
+
+\section*{Överblick}
+% Förklara hur allt funkar
+``Motorn'' i programmet är funktionen {\tt eval\_seq()}. Denna funktion, som man hör på namnet, evaluerar en sekvens. En sekvens är en rad matchningar följt av ett uttryck i slutet. När matchningarna evalueras byggs en omgivning upp, och i slutändan evalueras uttrycket i denna miljö och ger oss vårt resultat. Matchningar och uttryck evalueras med funktionerna {\tt eval\_match()} respektive {\tt eval\_expr()}. Dessa tre funktioner är i princip hela interpretatorn, bortsett från ett gäng hjälpfunktioner.
+
+\section*{Omgivningar}
+Omgivningar, eller environments, implementerade jag som sagt som en lista av tupplar. För att kunna arbeta med en sådan lista skapade jag ett API i modulen {\tt Environment} med de specifikationer som gavs i uppgiftsbeskrivningen. Jag ``fuskade'' lite och använde list biblioteket. Detta innebär att det är något otydligt hur mitt API fungerar internt, men jag kände att jag har skrivit liknande funktioner så pass många gånger att jag har någorlunda koll på hur de beter sig och vad man bör tänka på.
+
+\begin{minted}{elixir}
+  # Hitta ett element i en omgivning
+  def lookup(key, {:env, env}) do
+    list_lookup(key, env)
+  end
+
+  def list_lookup(key, list) do
+    List.keyfind(list, key, 0) # Jag använde list-biblioteket
+  end
+\end{minted}
+
+\section*{Uttryck \& mönstermatchning}
+Som jag nämnde i inledningen tillhandahölls dessa funktionaliteter genom funktionerna {\tt eval\_expr()} respektive {\tt eval\_match()}. För det grundläggande programmet, alltså innan jag gjorde ``extensions'', hade jag inga problem med att implementera dessa funktioner.\\
+Uttryck evaluerades och matchades enligt reglerna i ``operational semantics''. Varje typ ({\tt :atm}, {\tt :var}, et cetera) hade en matchande klausul som implementerade den motsvarande regeln. Se figurerna nedan för en sådan regel och hur jag implementerade den.
+
+\[{\inference {a -> s}{P\sigma(a, s) -> \sigma}}\]
+\begin{minted}{elixir}
+  def eval_match({:atm, id}, id, {:env, env}) do
+    {:ok, env}
+  end
+\end{minted}
+
+\section*{Sekvenser}
+En sekvens består av en rad matchningar följt av ett uttryck. Jag implementerade sekvenser som en lista av tupplar.
+
+\begin{minted}{elixir}
+  # Min typ för en sekvens
+  # Kanske ha en lista, makes no sense riktigt
+  @type seq :: expr || {match, seq}
+\end{minted}
+
+Funktionen {\tt eval\_seq} går igenom en sådan lista och evaluerar alla tupplar genom att matcha mot det första indexet i dem, till exempel {\tt :match} eller {\tt :case}. Det sista elementet i listan evalueras med {\tt eval\_expr()} och resultatet av det anropet är resultatet av sekvensen.
+
+\section*{Extensions}
+\subsection*{Case-do sats}
+För att implementera case-do satsen skapade jag först typerna {\tt cas} (case var taget av elixir) och {\tt clause} för att representera det i en sekvens.
+\begin{minted}{elixir}
+  @type cas :: {:case, expr, clause} || {:case, expr, list}
+  @type clause :: {:clause, pat, seq}
+  # Hur det skulle se ut i elixir, list är lista av alla pat-seq par
+  case <expr> do
+    <pat> -> seq
+    <pat> -> seq
+  end
+\end{minted}
+Sedan lade jag till en klausul i {\tt eval\_expr()} för att fånga uttrycket.
+\begin{minted}{elixir}
+  def eval_expr({:Case, expr, cls}, env) do
+    case eval_expr(expr, env) do
+      ...
+      {:ok, str} -> eval_cls(cls, str, env)
+    end
+  end
+\end{minted}
+{\tt eval\_cls()} matchar sedan {\tt str} mot mönstret i de olika klausulerna. Om en av dem matchar evalueras den klausulens sekvens i den nya omgivniingen som returnerades från matchingen.\\
+För att följa regeln i ``operational semantics'' måste vi dessutom omevaluera omgivningen i {\tt eval\_cls()} och ta bort bindningar till variablerna som förekommer i mönstret.
+\begin{minted}{elixir}
+  def eval_cls([{:clause, pat, seq} | cls], str, env) do
+    env = eval_scope(pat, env) # Omevaluera omgivningen
+    
+    case eval_match(pat, str, env) do
+      :fail ->
+        eval_cls(cls, str, env) # Pröva nästa klausul
+      {:ok, env} ->
+	eval_seq(seq, env) # Evaluera den motsvarande sekvensen
+    end
+  end
+\end{minted}
+
+\subsection*{Lambdakalkyl}
+För att kunna evaluera ett lambdauttryck behövde några hjälpfunktioner utöver {\tt eval\_expr()} implementeras.\\
+En av dem var {\tt closure()}. Denna funktion säkerstället att en omgivning som ett lambdauttryck ska evalueras i är en closure, det vill säga att alla fria variabler i uttrycket har ett värde. Funktionen tar in en lista av fria variabler och en omgivning lambdauttrycket ska evalueras i, och kollar att alla variabler har ett bundet värde i omgivningen.
+
+\begin{minted}{elixir}
+  def closure([{:var, h} | free], {:env, env}) do
+    case lookup(h, {:env, env}) do # Är variabeln h bunden?
+      {_, _} ->
+        closure(t, {:env, env}) # Kolla resten
+      nil ->
+	IO.puts("closure failed: fri variabel har ej tilldelats värde: ")
+	IO.inspect(h)
+	:error
+    end
+  end
+\end{minted}
+En annan hjälpfunktion som behövdes var {\tt eval\_args()}. Denna funktion tog som argument en lista med uttryck som ska användas som parametrar i ett lambdauttryck samt den omgivning det skulle evalueras i. Uttrycken evalueras och returneras i en lista.
+\begin{minted}{elixir}
+  def eval_args(args, env) do
+    eval_args(args, env, []) # Anropa igen med en ackumulatorlista
+  end
+  # Evaluera alla argument i omgivningen env
+  def eval_args([], _, ret) do {:ok, ret} end
+  def eval_args([arg | at], env, ret) do
+    case eval_expr(arg, env) do
+      ...
+      {:ok, str} -> eval_args(at, env, ret ++ [str]) # Evaluera resten
+    end
+  end
+\end{minted}
+Dessa argument bands sedan till de variabler som skulle användas som ``input'' i lambdauttrycket genom funktionen {\tt args()}. Funktionen tog in två listor, en av de tidigare nämnda variablerna och en med de evaluerade uttrycken från {\tt eval\_args()}. Variablerna bands sedan till uttrycken i den omgivning lambdauttrycket kommer evalueras i.\\
+När ett lambdauttryck sedan skulle evalueras gjordes det via {\tt eval\_expr(:apply, ...)} klausulen. Denna anropade i sin tur {\tt eval\_expr(:lambda, ...)} klausulen, hjälpfunktionerna och efter det evaluerades lambdauttrycket precis som en vanlig sekvens.
+
+\section*{Sammanfattning}
+För mig var denna uppgift mer utmanande än de tidigare, och detta i kombination med många andra inlämningar gjorde att jag inte hann lägga så mycket tid på den som jag hade velat. Om jag hade haft mer tid hade jag nog kunnat lösa den sista delen också. Jag hade även velat lägga mer tid på att förstå lambdakalkyl.
+
+\end{document}
