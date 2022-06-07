@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{find}\PYG{p}{(}\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[],}\PYG{+w}{ }\PYG{n}{moves}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{moves}\PYG{+w}{ }\PYG{k}{end}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Ingen vagn kvar i tgoal}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{find}\PYG{p}{(}\PYG{n}{tcurr}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{gh}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{gt}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{moves}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{ch}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ct}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{split}\PYG{p}{(}\PYG{n}{tcurr}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{gh}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Antal vagnar framför och bakom gh}
+\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} Mallen}
+\PYG{+w}{    }\PYG{n}{this\PYGZus{}moves}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}\PYG{l+s+ss}{:one}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{(}\PYG{n}{ct}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}\PYG{l+s+ss}{:two}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{(}\PYG{n}{ch}\PYG{p}{)\PYGZcb{},}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}\PYG{l+s+ss}{:one}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{(}\PYG{n}{ct}\PYG{p}{)}\PYG{o}{*\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}\PYG{l+s+ss}{:two}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{length}\PYG{p}{(}\PYG{n}{ch}\PYG{p}{)}\PYG{o}{*\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{]}
+\PYG{+w}{    }\PYG{n}{tcurr}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{Lists}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{ch}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ct}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Det nya \PYGZdq{}main\PYGZdq{} spåret}
+\PYG{+w}{    }\PYG{n}{moves}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{Lists}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{moves}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{this\PYGZus{}moves}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{find}\PYG{p}{(}\PYG{n}{tcurr}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{gt}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{moves}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{bench}\PYG{p}{(}\PYG{n}{file}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{  }\PYG{n}{text}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{read}\PYG{p}{(}\PYG{n}{file}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+ss}{:all}\PYG{p}{)}
+\PYG{+w}{  }\PYG{n}{...}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Här filtreras texten}
+\PYG{+w}{    }\PYG{k}{for}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{o}{..}\PYG{l+m+mi}{200}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{      }\PYG{c+c1}{\PYGZsh{} \PYGZlt{}Välj i*100 tecken på en slumpmässig plats i texten\PYGZgt{}}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}\PYG{n}{t\PYGZus{}fr}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t\PYGZus{}tr}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t\PYGZus{}en}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t\PYGZus{}de}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{loop}\PYG{p}{(}\PYG{k}{fn}\PYG{p}{()}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{bench\PYGZus{}huff}\PYG{p}{(}\PYG{n}{text}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{end}\PYG{p}{)}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{+w}{    }\PYG{l+s+ss}{:ok}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

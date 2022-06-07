@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{freq}\PYG{p}{(}\PYG{n}{sample}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{freq}\PYG{p}{(}\PYG{n}{sample}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[])}\PYG{+w}{ }\PYG{k}{end}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Anropa med ackumulator}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{freq}\PYG{p}{([],}\PYG{+w}{ }\PYG{n}{freq}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{freq}\PYG{+w}{ }\PYG{k}{end}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Alla chars är kollade}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{freq}\PYG{p}{([}\PYG{n}{char}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{rest}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{freq}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{k}{case}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{keymember?}\PYG{p}{(}\PYG{n}{freq}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{char}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{      }\PYG{n+no}{true}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}
+\PYG{+w}{        }\PYG{c+c1}{\PYGZsh{} \PYGZlt{}Inkrementera indexet i freq\PYGZgt{}}
+\PYG{+w}{      }\PYG{n+no}{false}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}
+\PYG{+w}{        }\PYG{c+c1}{\PYGZsh{} \PYGZlt{}Lägg till \PYGZob{}char, 1\PYGZcb{} i freq\PYGZgt{}}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

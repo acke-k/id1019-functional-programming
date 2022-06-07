@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{decode}\PYG{p}{(}\PYG{n}{text}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{decode}\PYG{p}{(}\PYG{n}{text}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{morse}\PYG{p}{(),}\PYG{+w}{ }\PYG{p}{[])}\PYG{+w}{ }\PYG{k}{end}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Lägg till argument}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{decode}\PYG{p}{([],}\PYG{+w}{ }\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n+nc}{Enum}\PYG{o}{.}\PYG{n}{reverse}\PYG{p}{(}\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{end}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Alla tecken har avkodats}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{decode}\PYG{p}{([}\PYG{n}{head}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{text}\PYG{p}{],}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{l+s+ss}{:node}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{val}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{long}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{short}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{k}{case}\PYG{+w}{ }\PYG{n}{head}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} Mellanrum}
+\PYG{+w}{      }\PYG{l+m+mi}{32}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}
+\PYG{+w}{	}\PYG{n}{acc}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{val}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{]}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Mellanrum, alltså slutet på ett tecken.}
+\PYG{+w}{	}\PYG{n}{decode}\PYG{p}{(}\PYG{n}{text}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{morse}\PYG{p}{(),}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}
+\PYG{+w}{      }\PYG{l+s+sc}{?\PYGZhy{}}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}
+\PYG{+w}{        }\PYG{n}{decode}\PYG{p}{(}\PYG{n}{text}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{long}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Bindesstreck}
+\PYG{+w}{      }\PYG{l+s+sc}{?.}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}
+\PYG{+w}{	}\PYG{n}{decode}\PYG{p}{(}\PYG{n}{text}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{short}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Punkt}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

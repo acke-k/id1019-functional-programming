@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Den nya klausulen}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{few}\PYG{p}{([}\PYG{n}{h}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{ct}\PYG{p}{],}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{h}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{gt}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{moves}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{few}\PYG{p}{(}\PYG{n}{ct}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{gt}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{moves}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{end}
+\end{Verbatim}

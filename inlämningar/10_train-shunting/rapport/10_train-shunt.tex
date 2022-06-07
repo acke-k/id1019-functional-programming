@@ -1,0 +1,156 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[swedish]{babel}
+
+\usepackage{graphicx}
+\usepackage{semantic}
+\usepackage{minted}
+\usepackage{fancyvrb}
+
+\begin{document}
+
+\title{
+  \textbf{Tågväxling\\
+  \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{VT22 \today}
+
+\maketitle
+
+\section*{Inledning}
+I denna rapport ska jag redovisa min lösning för inlämningsuppgift 10: train shunting. Uppgiften gick ut på att lösa ett problem där vagnar ska sorteras i en bangård, och hur man kan modellera ett sådant problem i elixir. Jag har löst problemet på tre sätt med rekursiva algoritmer, där två är snarlika och den tredje är något mer sofistikerad.
+
+\section*{Modellering av problemet}
+Målet är att utifrån ett givet tillstånd i en bangård konstruera ett givet tåg. En bangård består av tre spår: {\tt main}, {\tt one} och {\tt two}. En vagn representeras av en (unik) atom och bangårdens tillstånd representeras av en tuppel med tre listor, en för varje spår.
+
+\begin{figure}[H]
+  \centering
+  \begin{BVerbatim}[gobble=4]
+    {[:a, :b], [:c], [:d, :e]}
+  \end{BVerbatim}
+  \caption{Exempel på ett tillstånd}
+  \label{fig:bangard}
+\end{figure}
+
+I \ref{fig:bangard} visas ett exempel på hur en bangård representeras i vår modell. Listorna representerar från höger till vänster {\tt main}, {\tt one} respektive {\tt two}.\\
+
+Vagnar kan flyttas mellan spåren på två sätt. Om en vagn flyttas från {\tt main} till {\tt one} eller {\tt two} flyttas vagnen längst bak på spåret. Om en vagn flyttas från {\tt one} eller {\tt two} till {\tt main} flyttas den främsta vagnen (om man funderar på  hur detta skulle fungera i verkligheten kan man förstå varför).
+
+\begin{figure}[H]
+  \centering
+    \begin{BVerbatim}[gobble=6]
+      {[:a, :b], [], []} -> {[:a], [:b], []}
+      {[], [:c, :d], []} -> {[:c], [:d], []}
+    \end{BVerbatim}
+  \caption{Hur vagnar kan flyttas mellan spåren.}
+  \label{fig:1.flytta}
+\end{figure}
+
+I \ref{fig:1.flytta} visas exempel på hur vagnar flyttas mellan de olika spåren. I det första exemplet flyttas vagn {\tt :b} från {\tt main} till {\tt one}. I det andra exemplet flyttas en vagn från {\tt one} till {\tt main}.\\
+
+En förflyttning beskrivs av antal vagnar som flyttas mellan {\tt one} eller {\tt two} och {\tt main}. Detta representeras som en tuppel med två element, en atom och en siffra. Om siffran är positiv eller negativ flyttas vagnar från respektive till {\tt main}.
+
+\begin{figure}[H]
+  \centering
+    \begin{BVerbatim}[gobble=6]
+      {:one, 1}
+      {:one, -1}
+    \end{BVerbatim}
+  \caption{Hur en förflyttning representeras.}
+  \label{fig:2.flytta}
+\end{figure}
+
+I \ref{fig:2.flytta} ser vi hur förflyttningarna i \ref{fig:1.flytta} skulle beskrivas i programmet.\\
+
+\section*{Hjälpfunktioner}
+Ett flertal hjälpfunktioner implementerades i modulerna {\tt Lists}, {\tt Moves} och {\tt Shunt} för att skapa en grund varpå en algoritm som löser problemet kunde byggas. Den mest intressanta av dessa är nog {\tt single/2}.
+\subsection*{Single}
+Denna funktion skulle ta en förflyttning och ett tillstånd för en bangård som argument, och sedan returnera ett uppdaterat tillstånd där förflyttningen har utförts.\\
+Först definierade jag funktionen {\tt single/2} som tar de tidigare nämnda argumenten.
+\begin{minted}{elixir}
+  def single({track, num}, {main, t1, t2}) do
+    case track do
+      :one ->	
+	{main, t1} = single(num, main, t1) # Till/från one
+	{main, t1, t2}
+      :two ->
+	{main, t2} = ... # Till/från two
+    end
+  end
+\end{minted}
+
+Denna funktion anropar sedan {\tt single/3} som modifierar spåren så att rätt antal vagnar flyttas.
+
+\begin{minted}{elixir}
+  def single(num, main, track) do
+    case num < 0 do
+      true -> # Flytta från track till main
+	num = num*-1 
+        # Modifiera listorna (spåren) med Lists modulen
+	{main, train}
+      false -> # Flytta main till track
+        # Lists modulen igen, returnera 2 spår
+    end
+  end
+\end{minted}
+
+I fallet där vagnar flyttas från {\tt track} till {\tt main} multipliceras {\tt num} med {\tt -1} eftersom vi i den exkluderade koden arbetar med listor, som självklart inte har negativa index.
+
+\section*{Algoritmen}
+Jag implementerade tre olika lösningar på problemet där den första och andra är väldigt lika. Alla tre bygger på samma princip. De går igenom alla vagnar i ett givet tåg en och en, och för varje vagn hittar de förflyttningar som i en given bangård placerar vagnen rätt plats. Dessa förflyttningar genereras utifrån en förutbestämd mall som fylls i med hjälp av {\tt split/2}.
+
+\subsection*{Find}
+Den första versionen av algoritmen implementerades med funktionen {\tt find/2}. Funktionen tar två tåg som argument, {\tt tbeg} och {\tt tgoal}, och returnerar en sekvens förflyttningar som transformerar bangården {\tt \{tbeg, [], []\}} till {\tt \{tgoal, [], []\}}. Algoritmen har bara koll på två spår, och måste därför placera alla vagnar på {\tt tbeg} spåret innan nästa anrop sker.\\
+Jag löste problemet genom att definiera en funktion {\tt find/3} som även tar en ackumulatorlista som argument. Algoritmen går sedan igenom varje vagn i {\tt tgoal} och ``fyller i'' värden i en lista av förflyttningar, som sedan läggs till i ackumulatorlistan.
+
+\begin{minted}{elixir}
+  def find(_, [], moves) do moves end # Ingen vagn kvar i tgoal
+  def find(tcurr, [gh | gt], moves) do
+    {ch, ct} = split(tcurr, gh) # Antal vagnar framför och bakom gh
+    # Mallen
+    this_moves = [
+      {:one, length(ct) + 1},
+      {:two, length(ch)},
+      {:one, length(ct)*-1 - 1},
+      {:two, length(ch)*-1}
+    ]
+    tcurr = Lists.append(ch, ct) # Det nya "main" spåret
+    moves = Lists.append(moves, this_moves)
+    find(tcurr, gt, moves)
+  end
+\end{minted}
+
+\subsection*{Few}
+Denna lösning är identisk till {\tt find/2} förutom en förändring, en ny klausul som matchar om de första vagnarna i {\tt tcurr} och {\tt tgoal} är samma. I det fallet är vagnen redan på rätt plats och ingen förflyttning behövs.
+\begin{minted}{elixir}
+  # Den nya klausulen
+  def few([h | ct], [h | gt], moves) do few(ct, gt, moves) end
+\end{minted}
+
+\subsection*{Fewer}
+I denna lösning utökades informationen som algoritmen har tillgång till. Den implementerades i funktionen {\tt fewer/4} som tar tre spår ({\tt ms}, {\tt os} och {\tt ts}) samt ett tåg {\tt [y | ys]} som argument. Till skillnad från de tidigare lösningarna kan vi alltså utnyttja det faktum att vagnarna i bangården kan ligga på tre spår. Istället för att alltid använda samma mall för {\tt this\_moves} som i {\tt find/2} och {\tt fewer/2} finns det nu olika mallar beroende på vilket spår vagnen {\tt y} ligger på.
+
+\begin{minted}{elixir}
+  def fewer(ms, os, ts, [y | ys], moves) do
+    cond do
+    List.member(ms, y) -> # y är på main
+      ...
+      this_moves = [ ... ]
+      ...
+    List.member(os, y) -> # y är på one
+      ...
+      this_moves = [ ... ]
+      ...
+    List.member(ts, y) -> # y är på two
+      ...
+      this_moves = [ ... ]
+      ...
+    end
+  end
+\end{minted}
+
+\section*{Reflektion}
+Denna uppgift kändes som en skön omväxling efter att ha krigat med ``Kapa brädor'' uppgiften tidigare i veckan. En sak som slog mig när jag först gjorde uppgiften, men som är ganska uppenbart i efterhand, är att det är intressant hur våra lösningar blir bättre (färre förflyttningar) ju mer information vi låter algoritmen arbeta med. Jag undrar om det hade gått att skriva en ännu bättre algoritm som kollar på ännu fler parametrar, kanske ordningen av vagnarna på spåren. Jag funderade också på om man hade kunnat ``brute force-a'' lösningen  med dynamisk programmering (som i kapa brädor), men det får nog vänta tills en annan dag.
+\end{document}

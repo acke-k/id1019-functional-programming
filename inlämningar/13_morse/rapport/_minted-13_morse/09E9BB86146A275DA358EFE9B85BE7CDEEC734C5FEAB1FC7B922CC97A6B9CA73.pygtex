@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Det första anropet}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} morse() är den givna avkodningstabellen}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{()}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} En tuppel av 128 nollor}
+\PYG{+w}{    }\PYG{n}{empty\PYGZus{}table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{to\PYGZus{}tuple}\PYG{p}{(}\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{duplicate}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{128}\PYG{p}{))}
+\PYG{+w}{    }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(}\PYG{n}{morse}\PYG{p}{(),}\PYG{+w}{ }\PYG{p}{[],}\PYG{+w}{ }\PYG{n}{empty\PYGZus{}table}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

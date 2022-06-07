@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{p}{[}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{100}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} \PYGZob{}\PYGZlt{}asciivärde\PYGZgt{}, \PYGZlt{}antal förekomster\PYGZgt{}\PYGZcb{}}
+\PYG{+w}{    }\PYG{n}{...}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{l+m+mi}{115}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{]}
+\end{Verbatim}

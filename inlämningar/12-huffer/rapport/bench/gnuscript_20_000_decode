@@ -1,0 +1,17 @@
+set terminal png
+set output "../images/20_000_decode.png"
+
+set title "decode/2 med olika filter"
+
+set key left top
+
+set xlabel "Antal chars"
+set ylabel "tid i millisekunder"
+
+set xrange[0:20000]
+
+plot "bench_20_000.dat" using 1:($5/1000) title "Alla" with lines, \
+"bench_filt_20_000_10dat" using 1:($5/1000) title "10 vanligaste" with lines, \
+"bench_filt_20_000_8.dat" using 1:($5/1000) title "8 vanligaste" with lines, \
+"bench_filt_20_000_5.dat" using 1:($5/1000) title "5 vanligaste" with lines, \
+"bench_filt_20_000_3.dat" using 1:($5/1000) title "3 vanligaste" with lines, \

@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[],}\PYG{+w}{ }\PYG{p}{[])}\PYG{+w}{ }\PYG{k}{end}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Matchar mot en gren}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table}\PYG{p}{(\PYGZob{}\PYGZob{}}\PYG{n}{el1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{el2}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{\PYGZus{}n}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{path}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table}\PYG{p}{(}\PYG{n}{el1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{path}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{])}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table}\PYG{p}{(}\PYG{n}{el2}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{path}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+\PYG{+w}{    }\PYG{n}{table}
+\PYG{+w}{  }\PYG{k}{end}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Matchar mot ett löv}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table}\PYG{p}{(\PYGZob{}}\PYG{n}{el}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{\PYGZus{}n}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{path}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{p}{[\PYGZob{}}\PYG{n}{el}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{path}\PYG{p}{\PYGZcb{}]}\PYG{+w}{ }\PYG{k}{end}
+\end{Verbatim}

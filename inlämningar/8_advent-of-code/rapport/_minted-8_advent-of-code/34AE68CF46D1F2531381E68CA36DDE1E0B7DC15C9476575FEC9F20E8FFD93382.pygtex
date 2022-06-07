@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Skapa ackumulatorvariabel}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{depth1}\PYG{p}{(}\PYG{n}{data}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{depth1}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{end}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Basfall: Bara ett element kvar}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{depth1}\PYG{p}{([}\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{acc}\PYG{+w}{ }\PYG{k}{end}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Rekursivt steg}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{depth1}\PYG{p}{([}\PYG{n}{h1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{k}{case}\PYG{+w}{ }\PYG{n}{h1}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{h2}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{      }\PYG{n+no}{true}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{depth1}\PYG{p}{([}\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{acc}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
+\PYG{+w}{      }\PYG{n+no}{false}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{depth1}\PYG{p}{([}\PYG{n}{h2}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{acc}\PYG{p}{)}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

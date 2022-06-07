@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{huffman}\PYG{p}{(}\PYG{n}{freq}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{n}{freq}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{keysort}\PYG{p}{(}\PYG{n}{freq}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Sortera listan av chars efter frekvens}
+\PYG{+w}{    }\PYG{n}{hufftree}\PYG{p}{(}\PYG{n}{freq}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

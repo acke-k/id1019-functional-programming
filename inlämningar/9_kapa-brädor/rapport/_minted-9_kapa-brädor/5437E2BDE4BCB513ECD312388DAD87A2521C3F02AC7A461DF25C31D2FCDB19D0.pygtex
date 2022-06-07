@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Ett av basfallen för cost/4}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{cost}\PYG{p}{([}\PYG{n}{s}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{l}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[],}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{)}\PYG{+w}{  }\PYG{k}{do}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{cost}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{tree}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cost}\PYG{p}{(}\PYG{n}{right}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} En kostnad och ett träd returneras}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{l}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{tree}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{\PYGZcb{}\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} \PYGZdq{}Skickar vidare\PYGZdq{} en kostnad och ett träd}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

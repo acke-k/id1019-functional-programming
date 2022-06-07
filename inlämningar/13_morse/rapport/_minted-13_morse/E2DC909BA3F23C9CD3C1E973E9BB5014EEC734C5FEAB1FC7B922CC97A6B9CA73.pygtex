@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Basfall om ett löv nås}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(}\PYG{l+s+ss}{:nil}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{table}\PYG{+w}{ }\PYG{k}{end}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Om noden innehåller :na, lägg inte till något i tabellen}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(\PYGZob{}}\PYG{l+s+ss}{:node}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+ss}{:na}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{long}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{short}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{code}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(}\PYG{n}{long}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{code}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(}\PYG{n}{short}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{code}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{table}
+\PYG{+w}{  }\PYG{k}{end}
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Lägg till morsekoden code i plats char i tabellen}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(\PYGZob{}}\PYG{l+s+ss}{:node}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{char}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{long}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{short}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{code}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{insert\PYGZus{}tup}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{char}\PYG{p}{,}\PYG{+w}{ }\PYG{n+nc}{Enum}\PYG{o}{.}\PYG{n}{reverse}\PYG{p}{(}\PYG{n}{code}\PYG{p}{))}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(}\PYG{n}{long}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{code}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{table}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{encode\PYGZus{}table\PYGZus{}tup}\PYG{p}{(}\PYG{n}{short}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{code}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{table}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

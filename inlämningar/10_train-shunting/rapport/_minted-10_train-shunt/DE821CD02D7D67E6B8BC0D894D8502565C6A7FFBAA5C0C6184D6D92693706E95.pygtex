@@ -1,0 +1,11 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{single}\PYG{p}{(\PYGZob{}}\PYG{n}{track}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{num}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{main}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t2}\PYG{p}{\PYGZcb{})}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{k}{case}\PYG{+w}{ }\PYG{n}{track}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{      }\PYG{l+s+ss}{:one}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{	}
+\PYG{+w}{	}\PYG{p}{\PYGZob{}}\PYG{n}{main}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t1}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{single}\PYG{p}{(}\PYG{n}{num}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{main}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t1}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Till/från one}
+\PYG{+w}{	}\PYG{p}{\PYGZob{}}\PYG{n}{main}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t2}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{      }\PYG{l+s+ss}{:two}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}
+\PYG{+w}{	}\PYG{p}{\PYGZob{}}\PYG{n}{main}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t2}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{...}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Till/från two}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

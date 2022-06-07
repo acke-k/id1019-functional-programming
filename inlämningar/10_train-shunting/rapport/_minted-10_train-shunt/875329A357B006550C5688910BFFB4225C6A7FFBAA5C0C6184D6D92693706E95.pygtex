@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{fewer}\PYG{p}{(}\PYG{n}{ms}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{os}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ts}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{y}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{ys}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{moves}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{k}{cond}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{member}\PYG{p}{(}\PYG{n}{ms}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} y är på main}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{      }\PYG{n}{this\PYGZus{}moves}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{+w}{ }\PYG{n}{...}\PYG{+w}{ }\PYG{p}{]}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{    }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{member}\PYG{p}{(}\PYG{n}{os}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} y är på one}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{      }\PYG{n}{this\PYGZus{}moves}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{+w}{ }\PYG{n}{...}\PYG{+w}{ }\PYG{p}{]}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{    }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{member}\PYG{p}{(}\PYG{n}{ts}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} y är på two}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{      }\PYG{n}{this\PYGZus{}moves}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{[}\PYG{+w}{ }\PYG{n}{...}\PYG{+w}{ }\PYG{p}{]}
+\PYG{+w}{      }\PYG{n}{...}
+\PYG{+w}{    }\PYG{k}{end}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

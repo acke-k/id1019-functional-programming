@@ -1,0 +1,12 @@
+set terminal png
+set output "../images/20_000_regular.png"
+
+set title "Alla funktioner"
+
+set key left top
+
+set xlabel "Antal element"
+set ylabel "tid i ms using 1:($2/1000) title "Freq/1" with lines, \
+"bench_20_000.dat" using 1:($3/1000) title "Tree/1" with lines, \
+"bench_20_000.dat" using 1:($4/1000) title "Encode/2/1" with lines, \
+"bench_20_000.dat" using 1:($5/1000) title "Decode/1" with lines

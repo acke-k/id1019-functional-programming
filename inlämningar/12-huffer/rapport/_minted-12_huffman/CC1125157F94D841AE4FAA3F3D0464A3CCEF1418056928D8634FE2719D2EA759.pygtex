@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode}\PYG{p}{([],}\PYG{+w}{ }\PYG{n}{\PYGZus{}table}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{p}{[]}\PYG{+w}{ }\PYG{k}{end}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{encode}\PYG{p}{([}\PYG{n}{char}\PYG{+w}{ }\PYG{o}{|}\PYG{+w}{ }\PYG{n}{rest}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{path}\PYG{p}{\PYGZcb{}}\PYG{+w}{  }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{keyfind!}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{char}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{+w}{    }\PYG{n}{path}\PYG{+w}{ }\PYG{o}{++}\PYG{+w}{ }\PYG{n}{encode}\PYG{p}{(}\PYG{n}{rest}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{table}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

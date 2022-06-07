@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Motsvarande klausul i denna version}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{mcost}\PYG{p}{([}\PYG{n}{s}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{l}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{[],}\PYG{+w}{ }\PYG{n}{right}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mem}\PYG{p}{)}\PYG{+w}{  }\PYG{k}{do}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{c}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{t}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mem}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{mcheck}\PYG{p}{(}\PYG{n}{right}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{mem}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{c}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{l}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{,}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n}{t}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{s}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{mem}\PYG{p}{\PYGZcb{}}\PYG{+w}{  }\PYG{c+c1}{\PYGZsh{} Skickar med en map i varje anrop}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}

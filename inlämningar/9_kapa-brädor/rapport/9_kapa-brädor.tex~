@@ -1,0 +1,92 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+
+\usepackage{minted}
+
+\usepackage{semantic}
+
+\begin{document}
+
+\title{
+  \textbf{Ström av primtal\\
+  \small Programmering II}
+}
+\author{Axel Karlsson}
+\date{VT22 \today}
+
+\maketitle
+
+\section*{Inledning}
+I denna uppgift implementerade jag en datastruktur som tillhandahåller en oändligt lång serie primtal. Den implementerar även modulerna {\tt Enum} och {\tt Stream}.
+
+\section*{Hjälpfunktionerna}
+Datastrukturen tillhandahålls av funktionen {\tt primes()}. Denna funktion bygger på tre hjälpfunktioner som skapar och filtrerar en ström av alla heltal. Jag tror inte att det finns så många olika sätt att implementera dessa funktioner så jag går igenom koden väldigt ytligt.
+\subsection*{Z}
+Denna funktion tar ett heltal som argument och returnerar en ström av alla heltal efter det givna talet.
+\begin{minted}{elixir}
+  def z(n) do
+    struct = fn() -> {n, z(n + 1)} end # {<tal>, <nästa anrop av fun>}
+    struct
+  end
+\end{minted}
+
+\subsection*{Filter}
+Denna funktion tar en ström, till exempel från {\tt z()}, och ett heltal {\tt n} som argument. Den returnerar samma ström som argumentet men där alla tal som är delbara med {\tt n} (alltså de som uppfyller {\tt rem(n, <ström>) == 0}) skippas.
+\begin{minted}{elixir}
+  def filter(fun, filt_num) do
+    {next_num, next_fun} = fun.() # Hitta nästa tal i strömmen fun
+    case rem(next_num, filt_num) do
+      0 ->
+	filter(next_fun, filt_num) # skippa numret från fun
+      _ ->
+	{next_num, fn() ->
+	  filter(next_fun, filt_num) end} # Ta med numret
+    end
+  end
+\end{minted}
+
+\subsection*{Sieve}
+Denna funktion bygger vidare på {\tt filter} för att skapa en filtrerad ström. Den tar en ström {\tt fun} och ett tal {\tt prime} som argument, och returnerar en ström tal som ej är delbara med de tal som tidigare förekommit i strömmen. Det är svårt att ge en ordentlig förklaring men förhoppningsvis går det att förstå om man som läsare har gjort uppgiften. Om vi ger {\tt z()} och {\tt 2} som argument resulterar detta i en ström av primtal.
+\begin{minted}{elixir}
+  def sieve(fun, prime) do
+    # Skapa en ström av tal ej delbara med prime
+    {next_prime, next_fun} = filter(fun, prime)
+    # Returnera primtal och en ström
+    {next_prime, fn() -> sieve(next_fun, next_prime) end}
+  end
+\end{minted}
+
+\section*{Primes}
+De tidigare hjälpfunktionerna kombinerades för att implementera funktionen {\tt primes()} som tillhandahåller en oändlig ström av primtal.\\
+Denna funktion är väldigt lik {\tt sieves()} med skillnaden att den ``bootstrapar'' sig själv vilket i praktiken innebär att vi kan anropa {\tt primes()} istället för {\tt sieve(z(3), 2)} för att skapa en ström av primtal.
+Bootstrap.
+\begin{minted}{elixir}
+  def primes() do
+    fn() -> {2, fn() -> sieve(z(3), 2) end} end # Bootstrap
+  end
+\end{minted}
+
+\section*{Enumerable}
+Till sist implementerades {\tt Enumerable} protokollet så att {\tt primes()} skulle vara kompatibel med {\tt Enum} och {\tt Stream} protokollen.\\
+Förutom att implementera de givna funktionerna modifierades funktionen {\tt primes()}.
+\begin{minted}{elixir}
+  def primes() do
+    %Primes{next: fn() -> {2, fn() -> sieve(z(3), 2) end} end}
+  end
+\end{minted}
+Funktionen {\tt next()} implementerades också.
+\begin{minted}{elixir}
+  def next(%Primes{next: fun}) do
+    {p, next_fun} = fun.()
+    {p, %Primes{next: next_fun}}
+    end
+\end{minted}
+Dessa funktioner ser till att {\tt primes()} strukturer har rätt syntax för att fungera med {\tt Enum} och {\tt Stream}.
+\section*{Sammanfattning}
+Denna uppgift kändes relativt lätt men var ändå lärorik. I efterhand känns det som att jag har lärt mig en väldigt viktig del av elixirs syntax och jag känner att jag har mer förståelse för hur kod vi har arbetat med tidigare, till exempel Johans bench modul, fungerar.
+  
+  
+\end{document}

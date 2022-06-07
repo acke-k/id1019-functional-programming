@@ -1,0 +1,13 @@
+set terminal png
+set output "../latex/images/bench_all_improvments_lin.png"
+
+set title "Förbättrade versioner"
+
+
+set xlabel "Antal element"
+set ylabel "tid i sekunder"
+
+plot "dbench.dat" every ::10::17 using 1:($2/1000000) title "Map" with lines, \
+"gbench.dat" every ::10::17 using 1:($2/1000000) title "Vänster" with lines, \
+"mbench.dat" every ::10::17 using 1:($2/1000000) title "Sorterad" with lines
+	

@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{hufftree}\PYG{p}{([}\PYG{n}{root}\PYG{p}{])}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{root}\PYG{+w}{ }\PYG{k}{end}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} När det endast finns ett element}
+\PYG{+w}{  }\PYG{k+kd}{def}\PYG{+w}{ }\PYG{n}{hufftree}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{do}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{el1}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n1}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{tree}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{pop\PYGZus{}at}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Första elementet}
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}\PYG{n}{el2}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nb+bp}{\PYGZus{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{n2}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{tree}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n+nc}{List}\PYG{o}{.}\PYG{n}{pop\PYGZus{}at}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Andra elementet}
+\PYG{+w}{    }\PYG{n}{comb}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZob{}}\PYG{n}{el1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{el2}\PYG{p}{\PYGZcb{},}\PYG{+w}{ }\PYG{n}{n1}\PYG{o}{+}\PYG{n}{n2}\PYG{p}{\PYGZcb{}}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Kombinera dem}
+\PYG{+w}{    }\PYG{n}{tree}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{insert\PYGZus{}sorted}\PYG{p}{(}\PYG{n}{comb}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{tree}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} Stoppa in på rätt plats}
+\PYG{+w}{    }\PYG{n}{hufftree}\PYG{p}{(}\PYG{n}{tree}\PYG{p}{)}
+\PYG{+w}{  }\PYG{k}{end}
+\end{Verbatim}
